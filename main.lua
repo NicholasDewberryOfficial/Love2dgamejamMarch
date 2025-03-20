@@ -8,8 +8,9 @@ io.stdout:setvbuf("no")
   
 local playeractions = require("Playeractions")
 function love.load()
+  
   love.window.setMode(609, 812, {resizable=true, vsync=0, minwidth=480, minheight=640})
-  print("Game loaded")
+
   playeractions.load()
 end
 
@@ -19,7 +20,6 @@ end
 
 
 function love.draw()
-    love.graphics.print("I'm in your walls")
     playeractions.draw()
 end
 
