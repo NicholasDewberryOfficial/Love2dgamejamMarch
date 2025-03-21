@@ -16,10 +16,6 @@ local canFire = true
 local quadx = 32
 local quady = 32
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 1b7c54b (player death is adde)
 --audio section 
 local shootsound = love.audio.newSource("audio/alienshoot1.wav", "static")
 local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
@@ -27,8 +23,6 @@ local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
 --base is 1, losing is 2, winning is 3 
 local haswonorlost = 1
 
-<<<<<<< HEAD
-local enemy = { x = 150, y = 150, width = 50, height = 50 }
 
 --[[
 As discussed earlier, the player has a check collision thingy 
@@ -37,6 +31,9 @@ but in the future it WON'T BE CALLED HERE
 This function should be called bt the ASTROIDS every frame!!
 The asteroids would need to have a static reference to the player, and then do Playeractions.checkCollision(me)
 ]]
+
+local enemy = { x = 150, y = 150, width = 50, height = 50 }
+
 function Playeractions.checkCollision(enemyobject)
     return enemyobject.x < enemyobject.x + enemyobject.width and
            playerpos.x + playerpos.width > enemyobject.x and
@@ -45,19 +42,14 @@ function Playeractions.checkCollision(enemyobject)
 end
 
 
-function Playeractions.load()
-  
-  haswonorlost = 1
-  bgmusic:setLooping(true)
- --@TODO: UNCOMMENT THIS ONCE WE GET ACUTAL MUSIC!! bgmusic:play()
-  
-=======
+
+
 function Playeractions.load()
   haswonorlost = 1
   bgmusic:setLooping(true)
  --@TODO: UNCOMMENT THIS ONCE WE GET ACUTAL MUSIC!! bgmusic:play()
  
->>>>>>> 1b7c54b (player death is adde)
+
   --player movement
   playerpos = {}
   playerpos.x = 300
@@ -80,9 +72,13 @@ function Playeractions.update(dt)
     end
   --player movmenet
   Playeractions.movementactions()
-
   Playeractions.updateFireCoolDown(dt)
   projectile.update(dt)
+  -- Move player or enemy here
+    if Playeractions.checkCollision(enemy) then
+        print("Collision detected!")
+    end
+  
   
    --@TODO this a temporary solution. 
    --Remove this line and instead call check collisions
@@ -114,13 +110,9 @@ function Playeractions.movementactions()
   if love.keyboard.isDown("z") then 
       Playeractions.fire()
     end
-<<<<<<< HEAD
     
     --Player lose (debug)
-    if love.keyboard.isDown("p") then 
-=======
   if love.keyboard.isDown("p") then 
->>>>>>> 1b7c54b (player death is adde)
     haswonorlost = 2
     end
 end
@@ -188,15 +180,13 @@ function Playeractions.updateFireCoolDown(dt)
   end
 end
 
-<<<<<<< HEAD
+
 --called in the "on keypress" function, but SHOULD be moved elsewhere. 
-=======
->>>>>>> 1b7c54b (player death is adde)
 function Playeractions.checkforwinorloss()
   return haswonorlost
 end 
 
-<<<<<<< HEAD
+
 --Temporary helper functions. I made these when debugging collisions. 
 --Probably not needed (?) 
 function Playeractions.returnplayerX()
@@ -207,6 +197,4 @@ function Playeractions.returnplayery()
   return playerpos.y
 end
 
-=======
->>>>>>> 1b7c54b (player death is adde)
 return Playeractions
