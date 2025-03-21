@@ -10,9 +10,9 @@ function AstroidGen:new(speed)
     self.y = -2
     self.width = 3
     self.height = 3
-    self.speed = speed
+    self.speed = 10
     self.patterns = {"LINE"}
-    self.pattenr = "LINE"
+    self.pattern = "LINE"
     self.spawned = false
 end
 
@@ -20,17 +20,16 @@ end
 
 
 function AstroidGen:update(dt)
-    if not self.spawned then
-       coordinates = {} 
+    if self.spawned == false then
        if self.pattern == "LINE" then
 
-        coordinates.inserrt({0,0})
         local x, y = 0, 0
         while x <= love.graphics.getWidth() do
             x = x + self.width + 1
             --coordinates.insert{x, y}
             table.insert(listOfAstroids, Astroid(x, y, self.speed))
         end
+        self.spawned = true
     end
     end
 end
