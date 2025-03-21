@@ -10,8 +10,19 @@ local canFire = true
 -- declared here so can be used for sprite animation calculation
 local quadx = 32
 local quady = 32
+
+--audio section 
+local shootsound = love.audio.newSource("audio/alienshoot1.wav", "static")
+local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
+
+--base is 1, losing is 2, winning is 3 
+local haswonorlost = 1
+
 function Playeractions.load()
-  
+  haswonorlost = 1
+  bgmusic:setLooping(true)
+ --@TODO: UNCOMMENT THIS ONCE WE GET ACUTAL MUSIC!! bgmusic:play()
+ 
   --player movement
   playerpos = {}
   playerpos.x = 300
@@ -23,7 +34,6 @@ function Playeractions.load()
   projectile.load()
   
 end
-
 
 function Playeractions.update(dt)
   --animation
@@ -59,14 +69,15 @@ function Playeractions.movementactions()
   if love.keyboard.isDown("z") then 
       Playeractions.fire()
     end
+  if love.keyboard.isDown("p") then 
+    haswonorlost = 2
+    end
 end
 
 function Playeractions.draw()
   local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
   love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], playerpos.x, playerpos.y, 0,1.5, 1.5, (quadx / 2) , (quady/ 2) )
-  --love.graphics.print(text, playerpos.x,playerpos.y)
   projectile.draw()
-
 end
 
 
@@ -111,6 +122,7 @@ function Playeractions.fire()
     projectile.newProjectile(playerpos.x , playerpos.y - 50)
     canFire = false
     fireCooldownTimer = 0;
+    shootsound:play()
   end 
 end
 
@@ -123,5 +135,9 @@ function Playeractions.updateFireCoolDown(dt)
     end  
   end
 end
+
+function Playeractions.checkforwinorloss()
+  return haswonorlost
+end 
 
 return Playeractions
