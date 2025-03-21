@@ -13,8 +13,11 @@ local gamestate = 0
 
 --loading in the other lua files 
 local playeractions = require("Playeractions")
+
 local mainmenuref = require("Mainmenuscreen")
 local losescreenref = require("Losescreen")
+
+
 
 function love.load()
 love.window.setMode(609, 812, {resizable=true, vsync=0, minwidth=480, minheight=640})
