@@ -18,6 +18,23 @@ local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
 --base is 1, losing is 2, winning is 3 
 local haswonorlost = 1
 
+local enemy = { x = 150, y = 150, width = 50, height = 50 }
+
+--[[
+function Playeractions.checkCollision(enemyobject)
+    return obj1.x < obj2.x + obj2.width and
+           obj1.x + obj1.width > obj2.x and
+           obj1.y < obj2.y + obj2.height and
+           obj1.y + obj1.height > obj2.y
+end]]
+
+function Playeractions.checkCollision(enemyobject)
+    return enemyobject.x < enemyobject.x + enemyobject.width and
+           playerpos.x + playerpos.width > enemyobject.x and
+           playerpos.y < enemyobject.y + enemyobject.height and
+           playerpos.y + playerpos.height > enemyobject.y
+end
+
 function Playeractions.load()
   haswonorlost = 1
   bgmusic:setLooping(true)
@@ -27,6 +44,9 @@ function Playeractions.load()
   playerpos = {}
   playerpos.x = 300
   playerpos.y = 330
+  playerpos.width = quadx
+  playerpos.height = quady
+
   
   --player art animations
   playersprite = love.graphics.newImage('art/Ligher.png')
@@ -43,9 +63,13 @@ function Playeractions.update(dt)
     end
   --player movmenet
   Playeractions.movementactions()
-
   Playeractions.updateFireCoolDown(dt)
   projectile.update(dt)
+  -- Move player or enemy here
+    if Playeractions.checkCollision(enemy) then
+        print("Collision detected!")
+    end
+  
   
 end
 
@@ -139,5 +163,14 @@ end
 function Playeractions.checkforwinorloss()
   return haswonorlost
 end 
+
+function Playeractions.returnplayerX()
+  return playerpos.x
+end
+
+function Playeractions.returnplayery()
+  return playerpos.y
+end
+
 
 return Playeractions
