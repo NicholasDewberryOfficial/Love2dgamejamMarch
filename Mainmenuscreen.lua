@@ -28,23 +28,31 @@ elseif selectedoption ==2 then
   love.graphics.circle("fill", xpos, ypos, 30)
 end
 
-function Mainmenuscreen.selectTheOption(dt)
-  if love.keyboard.keyreleased("up") then
-    if selectedoption > 0 then
-      selectedoption = selectedoption - 1 
-    end
-  end
-
-  if love.keyboard.keyreleased("down") then
-    if selectedoption < 2 then
-      selectedoption = selectedoption + 1
-    end
-  end
+function Mainmenuscreen.keypressed(key)
+  if key == "up" then
+      if selectedoption > 0 then
+        selectedoption = selectedoption - 1
+      end
+      
+  elseif key == "down" then
+      if selectedoption < 2 then
+        selectedoption = selectedoption + 1
+      end
+      
+  elseif (key == "z" and selectedoption==0) then 
+    print("HEY")
+    return 1
+  else 
   
-  if love.keyboard.isDown("z") then 
-      print("YES")
-  end
 end
+return 0
+end
+
+
+
+
+
+
 
   
 
