@@ -16,7 +16,10 @@ local canFire = true
 local quadx = 32
 local quady = 32
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1b7c54b (player death is adde)
 --audio section 
 local shootsound = love.audio.newSource("audio/alienshoot1.wav", "static")
 local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
@@ -24,6 +27,7 @@ local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
 --base is 1, losing is 2, winning is 3 
 local haswonorlost = 1
 
+<<<<<<< HEAD
 local enemy = { x = 150, y = 150, width = 50, height = 50 }
 
 --[[
@@ -47,6 +51,13 @@ function Playeractions.load()
   bgmusic:setLooping(true)
  --@TODO: UNCOMMENT THIS ONCE WE GET ACUTAL MUSIC!! bgmusic:play()
   
+=======
+function Playeractions.load()
+  haswonorlost = 1
+  bgmusic:setLooping(true)
+ --@TODO: UNCOMMENT THIS ONCE WE GET ACUTAL MUSIC!! bgmusic:play()
+ 
+>>>>>>> 1b7c54b (player death is adde)
   --player movement
   playerpos = {}
   playerpos.x = 300
@@ -60,7 +71,6 @@ function Playeractions.load()
   projectile.load()
   
 end
-
 
 function Playeractions.update(dt)
   --animation
@@ -104,9 +114,13 @@ function Playeractions.movementactions()
   if love.keyboard.isDown("z") then 
       Playeractions.fire()
     end
+<<<<<<< HEAD
     
     --Player lose (debug)
     if love.keyboard.isDown("p") then 
+=======
+  if love.keyboard.isDown("p") then 
+>>>>>>> 1b7c54b (player death is adde)
     haswonorlost = 2
     end
 end
@@ -114,9 +128,7 @@ end
 function Playeractions.draw()
   local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
   love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], playerpos.x, playerpos.y, 0,1.5, 1.5, (quadx / 2) , (quady/ 2) )
-  --love.graphics.print(text, playerpos.x,playerpos.y)
   projectile.draw()
-
 end
 
 
@@ -162,6 +174,7 @@ function Playeractions.fire()
     projectile.newProjectile(playerpos.x , playerpos.y - 50)
     canFire = false
     fireCooldownTimer = 0;
+    shootsound:play()
   end 
 end
 
@@ -175,11 +188,15 @@ function Playeractions.updateFireCoolDown(dt)
   end
 end
 
+<<<<<<< HEAD
 --called in the "on keypress" function, but SHOULD be moved elsewhere. 
+=======
+>>>>>>> 1b7c54b (player death is adde)
 function Playeractions.checkforwinorloss()
   return haswonorlost
 end 
 
+<<<<<<< HEAD
 --Temporary helper functions. I made these when debugging collisions. 
 --Probably not needed (?) 
 function Playeractions.returnplayerX()
@@ -190,4 +207,6 @@ function Playeractions.returnplayery()
   return playerpos.y
 end
 
+=======
+>>>>>>> 1b7c54b (player death is adde)
 return Playeractions

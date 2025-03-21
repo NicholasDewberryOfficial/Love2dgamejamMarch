@@ -16,8 +16,11 @@ local playeractions = require("Playeractions")
 
 local mainmenuref = require("Mainmenuscreen")
 local losescreenref = require("Losescreen")
+<<<<<<< HEAD
 
 --local asc = require("AstroidController")
+=======
+>>>>>>> 1b7c54b (player death is adde)
 
 function love.load()
 love.window.setMode(609, 812, {resizable=true, vsync=0, minwidth=480, minheight=640})
@@ -138,4 +141,5 @@ end
 
 
 end
+
 
