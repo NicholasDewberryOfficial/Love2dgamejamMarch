@@ -87,7 +87,7 @@ function love.keypressed(key, scancode, isrepeat)
   if gamestate == 0  then
   localscope = mainmenuref.keypressed(key)
   end
-  if localscope == 1 then
+  if localscope == 1 and gamestate == 0 then
   gamestate = 1 
   love.switchscenes()
   end

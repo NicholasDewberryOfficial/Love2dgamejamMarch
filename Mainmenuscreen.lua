@@ -40,7 +40,6 @@ function Mainmenuscreen.keypressed(key)
       end
       
   elseif (key == "z" and selectedoption==0) then 
-    print("HEY")
     return 1
   else 
   
