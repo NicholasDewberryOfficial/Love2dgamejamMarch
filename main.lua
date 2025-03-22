@@ -17,7 +17,7 @@ local playeractions = require("Playeractions")
 local mainmenuref = require("Mainmenuscreen")
 local losescreenref = require("Losescreen")
 
-
+local gameSceneBG
 
 function love.load()
   Object = require "classic"
@@ -38,7 +38,6 @@ mainmenuref.initializeVals()
 
 elseif gamestate == 1 then 
 playeractions.load()
-
 --end mainscene is entered
 
 elseif gamestate == 2 then
