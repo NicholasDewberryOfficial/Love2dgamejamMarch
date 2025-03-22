@@ -76,19 +76,22 @@ end
 function Playeractions.movementactions()
   --player movement
   if love.keyboard.isDown("left") then
-    Playeractions.whenmoveleft()
+      Playeractions.whenmoveleft()
   end
   
   if love.keyboard.isDown("right") then
-    Playeractions.whenmoveright()
-    end
-  if love.keyboard.isDown("up") then
-    Playeractions.whenmoveup()
-    end
-  if love.keyboard.isDown("down") then
-    Playeractions.whenmovedown()
-    end
+      Playeractions.whenmoveright()
+  end
 
+  if love.keyboard.isDown("up") then
+      Playeractions.whenmoveup()
+  end
+
+  if love.keyboard.isDown("down") then
+      Playeractions.whenmovedown()
+  end
+
+  Playeractions.checkBounds()
   -- player firing
   if love.keyboard.isDown("z") then 
       Playeractions.fire()
@@ -123,6 +126,30 @@ function Playeractions.newAnimation(image, width, height, duration)
     return animation
 end
 
+
+function Playeractions.checkBounds()
+  -- only the y scale is used for getting the correct sprite dimensions
+  local scaley = 1.5 
+  
+  -- check left border
+  if(playerpos.x - (playerpos.width/2) <= 0 ) then
+    playerpos.x = playerpos.width/2
+  end
+  -- check right border
+  if(playerpos.x + (playerpos.width/2 ) >= love.graphics.getWidth()) then 
+    playerpos.x = love.graphics.getWidth() - (playerpos.width/2)
+  end
+  -- check top border
+  if(playerpos.y + (playerpos.height/2 * scaley) >= love.graphics.getHeight()) then
+    playerpos.y = love.graphics.getHeight() - (playerpos.height/2 * scaley)
+  end
+  -- check bottom border
+  if(playerpos.y - (playerpos.height/2 * scaley) <= 0) then 
+    playerpos.y = playerpos.height/2  * scaley
+  end 
+
+  return true
+end
 
 
 function Playeractions.whenmoveleft()
