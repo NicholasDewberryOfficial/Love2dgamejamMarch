@@ -4,11 +4,15 @@ function Astroid:new(x, y, speed)
     --self.image = love.graphics.newImage("Astroid.png")
     self.x = x
     self.y = y
+    self.xSpeed = 0
+    self.ySpeed = 0
     self.speed = 10
     
     --Testing purposes code
-    self.width = 3
-    self.height = 3
+    self.width = 35
+    self.height = 35
+    --self.height = self.image:getHeight()
+    --self.width = self.image:getWidth()
 end
 
 
