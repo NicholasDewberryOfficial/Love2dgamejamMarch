@@ -17,7 +17,7 @@ local playeractions = require("Playeractions")
 local mainmenuref = require("Mainmenuscreen")
 local losescreenref = require("Losescreen")
 
-
+local asc = require("AstroidController")
 
 function love.load()
 love.window.setMode(609, 812, {resizable=true, vsync=0, minwidth=480, minheight=640})
@@ -32,6 +32,7 @@ mainmenuref.initializeVals()
 -- mainscene is entered: 
 
 elseif gamestate == 1 then 
+asc.start()
 playeractions.load()
 
 --end mainscene is entered
@@ -50,6 +51,7 @@ if gamestate == 0 then
 
 --mainloop controls/physics/interactions
 elseif gamestate == 1  then  
+asc.update(dt)
 playeractions.update(dt)
 
 --end mainloop controls/physics/interactions
@@ -74,6 +76,7 @@ mainmenuref.MoveArrow()
 --mainloop draw
 elseif gamestate ==1 
 then
+asc.draw()
 playeractions.draw()
 
 --end mainloopdraw

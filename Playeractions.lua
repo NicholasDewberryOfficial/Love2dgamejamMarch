@@ -1,6 +1,6 @@
 local Playeractions = {}
-local updownspeed = 1 
-local leftrightspeed = 1
+local updownspeed = .2
+local leftrightspeed = .2
 local playersprite 
 local projectile = require("Projectile")
 local fireCooldownTimer = 0
