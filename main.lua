@@ -1,3 +1,6 @@
+if arg[2] == "debug" then
+  require("lldebugger").start()
+end
 --DEWBERRY - for debugging and print statements. 
 io.stdout:setvbuf("no")
 --[[IDEALLY main.lua is reserved just
@@ -20,11 +23,10 @@ local losescreenref = require("Losescreen")
 local gameSceneBG
 
 function love.load()
+  listOfAstroids = {}
   Object = require "classic"
   require "AstroidGen"
   require "Astroid"
-  listOfAstroirds = {}
-  generator = AstroidGen(10)
 love.window.setMode(609, 812, {resizable=true, vsync=0, minwidth=480, minheight=640})
 love.switchscenes()
 gameSceneBG = love.graphics.newImage('art/gameBG.png')
@@ -38,6 +40,7 @@ mainmenuref.initializeVals()
 -- mainscene is entered: 
 
 elseif gamestate == 1 then 
+generator = AstroidGen(10)
 playeractions.load()
 --end mainscene is entered
 
@@ -59,11 +62,13 @@ playeractions.update(dt)
 generator:update(dt)
 for i, v in ipairs(listOfAstroids) do
   v:update(dt)
+
+--[[
 for i, v in ipairs(listOfAstroids) do
   if isOffScreen(v) then
     table.remove(listOfAstroids, i)
   end
-end
+end]]
 end
 --end mainloop controls/physics/interactions
 
