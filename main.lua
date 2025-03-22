@@ -66,16 +66,30 @@ if gamestate == 0 then
 --mainloop controls/physics/interactions
 elseif gamestate == 1  then  
 playeractions.update(dt)
+
+--Here is where we iterate through the astroids.
 generator:update(dt)
 for i, v in ipairs(listOfAstroids) do
   v:update(dt)
+<<<<<<< HEAD
 
 for i, v in ipairs(listOfAstroids) do
   if isOffScreen(v) then
     table.remove(listOfAstroids, i)
   end
 end
+=======
+  end
+
+for i, v in ipairs(listOfAstroids) do
+  if v.y > 600 then
+    table.remove(listOfAstroids, i)
+    print("Removed from table")
+  end
+>>>>>>> a67d739 (work in progress. trying to add win screen and astroid disappearing)
 end
+
+
 --end mainloop controls/physics/interactions
 
 elseif gamestate ==2  then
