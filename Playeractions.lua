@@ -24,14 +24,7 @@ local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
 local haswonorlost = 1
 
 
---[[
 
-As discussed earlier, the player has a check collision thingy 
-Right now, it calls every frame on a "local enemy" thingy
-but in the future it WON'T BE CALLED HERE
-This function should be called bt the ASTROIDS every frame!!
-The asteroids would need to have a static reference to the player, and then do Playeractions.checkCollision(me)
-]]
 
 local enemy = { x = 150, y = 150, width = 50, height = 50 }
 
@@ -42,13 +35,13 @@ but in the future it WON'T BE CALLED HERE
 This function should be called bt the ASTROIDS every frame!!
 The asteroids would need to have a static reference to the player, and then do Playeractions.checkCollision(me)
 ]]
+
 function Playeractions.checkCollision(enemyobject)
     return enemyobject.x < enemyobject.x + enemyobject.width and
            playerpos.x + playerpos.width > enemyobject.x and
            playerpos.y < enemyobject.y + enemyobject.height and
            playerpos.y + playerpos.height > enemyobject.y
 end
-
 
 
 function Playeractions.load()
@@ -63,7 +56,7 @@ function Playeractions.load()
   playerpos.y = 330
   playerpos.width = quadx
   playerpos.height = quady
-  
+
   --player art animations
   playersprite = love.graphics.newImage('art/Ligher.png')
   animation = Playeractions.newAnimation(playersprite, quadx, quady,.5)
@@ -219,8 +212,7 @@ end
 function Playeractions.checkforwinorloss()
   return haswonorlost
 end 
-
-
+ 
 --Temporary helper functions. I made these when debugging collisions. 
 --Probably not needed (?) 
 function Playeractions.returnplayerX()

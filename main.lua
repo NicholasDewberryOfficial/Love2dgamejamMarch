@@ -51,7 +51,6 @@ if gamestate == 0 then
 
 --mainloop controls/physics/interactions
 elseif gamestate == 1  then  
---asc.update(dt)
 playeractions.update(dt)
 
 --end mainloop controls/physics/interactions
@@ -76,9 +75,7 @@ mainmenuref.MoveArrow()
 --mainloop draw
 elseif gamestate ==1 
 then
-
 love.graphics.draw(gameSceneBG, 0, 0)
-
 playeractions.draw()
 
 
