@@ -1,23 +1,23 @@
-local Mainmenuscreen = {}
+local Losescreen = {}
 
 local selectedoption
 
 local movearrowsound = love.audio.newSource("audio/alienshoot1.wav", "static")
 
 --ugly ahh menu
-function Mainmenuscreen.initializeVals()
+function Losescreen.initializeVals()
   selectedoption = 0 
 end 
 
-function Mainmenuscreen.ShowMainMenu()
-  love.graphics.print("UNTITLED SPACESHIP GAME", 150, 200, 0, 1.5,1.5)
-  love.graphics.print("START", 200, 400)
-  love.graphics.print("ABOUT", 200, 500)
+function Losescreen.drawMenu()
+  love.graphics.print("You lost!", 150, 200, 0, 1.5,1.5)
+  love.graphics.print("RESTART GAME!", 200, 400)
+  love.graphics.print("Main Menu", 200, 500)
   love.graphics.print("QUIT", 200, 600)
 end 
   
   
-function Mainmenuscreen.MoveArrow()
+function Losescreen.MoveArrow()
   xpos = 150
   ypos = 400 
 if selectedoption == 0 then
@@ -30,7 +30,8 @@ elseif selectedoption ==2 then
   love.graphics.circle("fill", xpos, ypos, 30)
 end
 
-function Mainmenuscreen.keypressed(key)
+
+function Losescreen.keypressed(key)
   
   if key == "up" then
       if selectedoption > 0 then
@@ -49,13 +50,15 @@ function Mainmenuscreen.keypressed(key)
   end
   
 if (key == "z" and selectedoption==1) then
+  return 0
 end 
 
 if (key =="z" and selectedoption==2) then
 love.event.quit(0)
 end 
-return 0
+return 2
 end
+
 
 
 
@@ -68,4 +71,4 @@ end
 
 
 
-return Mainmenuscreen
+return Losescreen

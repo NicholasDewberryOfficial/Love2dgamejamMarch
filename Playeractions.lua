@@ -1,3 +1,8 @@
+--@Dewberry: Ok, I made a big oopsie where I did
+--Music/losescreen and forgot to push it. 
+--If theres bugs reference:
+--https://github.com/NicholasDewberryOfficial/Love2dgamejamMarch/blob/oldasteroidGeneration/Playeractions.lua
+
 local Playeractions = {}
 local updownspeed = 1 
 local leftrightspeed = 1
@@ -10,12 +15,44 @@ local canFire = true
 -- declared here so can be used for sprite animation calculation
 local quadx = 32
 local quady = 32
+
+
+--audio section 
+local shootsound = love.audio.newSource("audio/alienshoot1.wav", "static")
+local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
+
+--base is 1, losing is 2, winning is 3 
+local haswonorlost = 1
+
+local enemy = { x = 150, y = 150, width = 50, height = 50 }
+
+--[[
+As discussed earlier, the player has a check collision thingy 
+Right now, it calls every frame on a "local enemy" thingy
+but in the future it WON'T BE CALLED HERE
+This function should be called bt the ASTROIDS every frame!!
+The asteroids would need to have a static reference to the player, and then do Playeractions.checkCollision(me)
+]]
+function Playeractions.checkCollision(enemyobject)
+    return enemyobject.x < enemyobject.x + enemyobject.width and
+           playerpos.x + playerpos.width > enemyobject.x and
+           playerpos.y < enemyobject.y + enemyobject.height and
+           playerpos.y + playerpos.height > enemyobject.y
+end
+
+
 function Playeractions.load()
+  
+  haswonorlost = 1
+  bgmusic:setLooping(true)
+ --@TODO: UNCOMMENT THIS ONCE WE GET ACUTAL MUSIC!! bgmusic:play()
   
   --player movement
   playerpos = {}
   playerpos.x = 300
   playerpos.y = 330
+  playerpos.width = quadx
+  playerpos.height = quady
   
   --player art animations
   playersprite = love.graphics.newImage('art/Ligher.png')
@@ -36,6 +73,14 @@ function Playeractions.update(dt)
 
   Playeractions.updateFireCoolDown(dt)
   projectile.update(dt)
+  
+   --@TODO this a temporary solution. 
+   --Remove this line and instead call check collisions
+   --on the astroids 
+    if Playeractions.checkCollision(enemy) then
+        print("Collision detected!")
+    end
+  
   
 end
 
@@ -58,6 +103,11 @@ function Playeractions.movementactions()
   -- player firing
   if love.keyboard.isDown("z") then 
       Playeractions.fire()
+    end
+    
+    --Player lose (debug)
+    if love.keyboard.isDown("p") then 
+    haswonorlost = 2
     end
 end
 
@@ -122,6 +172,21 @@ function Playeractions.updateFireCoolDown(dt)
       fireCooldownTimer = fireCooldownTimer + dt
     end  
   end
+end
+
+--called in the "on keypress" function, but SHOULD be moved elsewhere. 
+function Playeractions.checkforwinorloss()
+  return haswonorlost
+end 
+
+--Temporary helper functions. I made these when debugging collisions. 
+--Probably not needed (?) 
+function Playeractions.returnplayerX()
+  return playerpos.x
+end
+
+function Playeractions.returnplayery()
+  return playerpos.y
 end
 
 return Playeractions
