@@ -20,7 +20,14 @@ local playeractions = require("Playeractions")
 local mainmenuref = require("Mainmenuscreen")
 local losescreenref = require("Losescreen")
 
-local gameSceneBG
+local 
+
+function isOffScreen(astroid)
+  if (astroid.x < 0 or astroid.x > love.graphics().getWidth() or atroid.y > love.graphics.getHeight()) then
+    return true
+  end
+  return false
+end
 
 function love.load()
   listOfAstroids = {}
@@ -63,12 +70,11 @@ generator:update(dt)
 for i, v in ipairs(listOfAstroids) do
   v:update(dt)
 
---[[
 for i, v in ipairs(listOfAstroids) do
   if isOffScreen(v) then
     table.remove(listOfAstroids, i)
   end
-end]]
+end
 end
 --end mainloop controls/physics/interactions
 
