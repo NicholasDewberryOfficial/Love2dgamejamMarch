@@ -59,7 +59,8 @@ function Playeractions.update(dt)
   projectile.update(dt)
   -- Move player or enemy here
     if Playeractions.checkCollision(enemy) then
-        print("Collision detected!")
+        --print("Collision detected!")
+        --kill the player
     end
   
   
