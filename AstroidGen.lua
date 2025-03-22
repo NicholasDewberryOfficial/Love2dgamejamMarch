@@ -24,9 +24,9 @@ function AstroidGen:update(dt)
        if self.pattern == "LINE" then
 
         local x, y = 0, 0
+        
         while x <= love.graphics.getWidth() do
             x = x + self.width + 1
-            --coordinates.insert{x, y}
             table.insert(listOfAstroids, Astroid(x, y, self.speed))
         end
         self.spawned = true
