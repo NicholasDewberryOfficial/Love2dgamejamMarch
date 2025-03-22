@@ -162,13 +162,16 @@ function Playeractions.whenmovedown()
 end 
 
 function Playeractions.fire()
-  if canFire then 
+  if projectile.projectileCount > 0 then
+    if canFire then 
       shootsound:play()
-    projectile.newProjectile(playerpos.x , playerpos.y - 50)
-    canFire = false
-    fireCooldownTimer = 0;
-    shootsound:play()
+      projectile.newProjectile(playerpos.x , playerpos.y - 50)
+      canFire = false
+      fireCooldownTimer = 0;
+      shootsound:play()
   end 
+end 
+  
 end
 
 function Playeractions.updateFireCoolDown(dt)
