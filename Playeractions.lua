@@ -25,6 +25,7 @@ local haswonorlost = 1
 
 
 --[[
+
 As discussed earlier, the player has a check collision thingy 
 Right now, it calls every frame on a "local enemy" thingy
 but in the future it WON'T BE CALLED HERE
@@ -34,6 +35,13 @@ The asteroids would need to have a static reference to the player, and then do P
 
 local enemy = { x = 150, y = 150, width = 50, height = 50 }
 
+--[[
+As discussed earlier, the player has a check collision thingy 
+Right now, it calls every frame on a "local enemy" thingy
+but in the future it WON'T BE CALLED HERE
+This function should be called bt the ASTROIDS every frame!!
+The asteroids would need to have a static reference to the player, and then do Playeractions.checkCollision(me)
+]]
 function Playeractions.checkCollision(enemyobject)
     return enemyobject.x < enemyobject.x + enemyobject.width and
            playerpos.x + playerpos.width > enemyobject.x and
@@ -43,13 +51,12 @@ end
 
 
 
-
 function Playeractions.load()
+  
   haswonorlost = 1
   bgmusic:setLooping(true)
  --@TODO: UNCOMMENT THIS ONCE WE GET ACUTAL MUSIC!! bgmusic:play()
- 
-
+  
   --player movement
   playerpos = {}
   playerpos.x = 300
@@ -113,9 +120,9 @@ function Playeractions.movementactions()
   if love.keyboard.isDown("z") then 
       Playeractions.fire()
     end
-    
+
     --Player lose (debug)
-  if love.keyboard.isDown("p") then 
+    if love.keyboard.isDown("p") then 
     haswonorlost = 2
     end
 end

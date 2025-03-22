@@ -17,8 +17,8 @@ local playeractions = require("Playeractions")
 local mainmenuref = require("Mainmenuscreen")
 local losescreenref = require("Losescreen")
 
-local gameSceneBG
 
+local gameSceneBG
 function love.load()
 love.window.setMode(609, 812, {resizable=true, vsync=0, minwidth=480, minheight=640})
 love.switchscenes()
@@ -78,6 +78,7 @@ elseif gamestate ==1
 then
 
 love.graphics.draw(gameSceneBG, 0, 0)
+
 playeractions.draw()
 
 
