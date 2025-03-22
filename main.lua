@@ -27,6 +27,7 @@ function love.load()
   generator = AstroidGen(10)
 love.window.setMode(609, 812, {resizable=true, vsync=0, minwidth=480, minheight=640})
 love.switchscenes()
+gameSceneBG = love.graphics.newImage('art/gameBG.png')
 end
 
 function love.switchscenes()
@@ -86,6 +87,7 @@ mainmenuref.MoveArrow()
 --mainloop draw
 elseif gamestate ==1 
 then
+love.graphics.draw(gameSceneBG, 0, 0)
 playeractions.draw()
 for i, v in ipairs(listOfAstroids) do
   v:draw()
