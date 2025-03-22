@@ -20,6 +20,11 @@ local losescreenref = require("Losescreen")
 
 
 function love.load()
+  Object = require "classic"
+  require "AstroidGen"
+  require "Astroid"
+  listOfAstroirds = {}
+  generator = AstroidGen(10)
 love.window.setMode(609, 812, {resizable=true, vsync=0, minwidth=480, minheight=640})
 love.switchscenes()
 end
@@ -51,7 +56,15 @@ if gamestate == 0 then
 --mainloop controls/physics/interactions
 elseif gamestate == 1  then  
 playeractions.update(dt)
-
+generator:update(dt)
+for i, v in ipairs(listOfAstroids) do
+  v:update(dt)
+for i, v in ipairs(listOfAstroids) do
+  if isOffScreen(v) then
+    table.remove(listOfAstroids, i)
+  end
+end
+end
 --end mainloop controls/physics/interactions
 
 elseif gamestate ==2  then
@@ -75,7 +88,9 @@ mainmenuref.MoveArrow()
 elseif gamestate ==1 
 then
 playeractions.draw()
-
+for i, v in ipairs(listOfAstroids) do
+  v:draw()
+end
 --end mainloopdraw
 
 elseif gamestate ==2 
