@@ -2,6 +2,7 @@ local Projectile = {}
 local sprite
 
 local plainText
+
 function Projectile.load()
     sprite = love.graphics.newImage('art/projectile.png')
     bullets = {}
@@ -28,6 +29,7 @@ end
 function Projectile.newProjectile(_x, _y)
     if Projectile.projectileCount > 0 then 
     table.insert(bullets, {x = _x, y = _y, speed = bulletSpeed, width = sprite:getWidth()/2, sprite:getHeight()/2})
+
     Projectile.projectileCount = Projectile.projectileCount - 1
     end 
 
