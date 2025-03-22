@@ -20,14 +20,23 @@ local playeractions = require("Playeractions")
 local mainmenuref = require("Mainmenuscreen")
 local losescreenref = require("Losescreen")
 
-local 
+local projectilearrref = require("Projectile")
 
 function isOffScreen(astroid)
-  if (astroid.x < 0 or astroid.x > love.graphics().getWidth() or atroid.y > love.graphics.getHeight()) then
-    return true
+  if (astroid.x < 0 or astroid.x > love.graphics.getWidth() or astroid.y > love.graphics.getHeight()) then
+  return true
+  else
+  return false
+  end
+end
+
+
+function istouchingProjectile(astroid, projectile)
+  if (astroid.x == projectile.x) and (astroid.y == projectile.y) then
+    return true 
   end
   return false
-end
+end 
 
 function love.load()
   listOfAstroids = {}
@@ -66,16 +75,30 @@ if gamestate == 0 then
 --mainloop controls/physics/interactions
 elseif gamestate == 1  then  
 playeractions.update(dt)
+
+--Here is where we iterate through the astroids.
 generator:update(dt)
 for i, v in ipairs(listOfAstroids) do
   v:update(dt)
+  playeractions.checkCollision(v)
+end
 
+--logic for erasing astroids 
 for i, v in ipairs(listOfAstroids) do
   if isOffScreen(v) then
     table.remove(listOfAstroids, i)
   end
+  end
+  
+if projectilearrref.bullets == null then 
+else
+for i, b in ipairs(projectilearrref.bullets) do
+  for x, c in ipairs(listOfAstroids) do 
+    if(istouchingProjectile(c, b)) then table.remove(listOfAstroids,c) end
 end
 end
+end
+
 --end mainloop controls/physics/interactions
 
 elseif gamestate ==2  then

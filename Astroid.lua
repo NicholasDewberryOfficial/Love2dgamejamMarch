@@ -6,7 +6,7 @@ function Astroid:new(x, y, speed)
     self.y = y
     self.xSpeed = 0
     self.ySpeed = 0
-    self.speed = 10
+    self.speed = speed
     
     --Testing purposes code
     self.width = 35
@@ -25,3 +25,6 @@ function Astroid:draw()
     --love.graphics.setColor(255, 0, 0)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end
+
+
+  

@@ -10,7 +10,11 @@ end
 function Projectile.update(dt)
    for i,v in ipairs(bullets) do
         v.y = v.y - (v.speed * dt)
-   end
+        --if(v.y < 0) then 
+       -- table.remove(bullets,v)
+  -- end
+   
+end
 end
 
 function Projectile.draw()

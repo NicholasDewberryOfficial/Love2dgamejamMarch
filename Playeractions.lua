@@ -20,14 +20,6 @@ local haswonorlost = 1
 
 local enemy = { x = 150, y = 150, width = 50, height = 50 }
 
---[[
-function Playeractions.checkCollision(enemyobject)
-    return obj1.x < obj2.x + obj2.width and
-           obj1.x + obj1.width > obj2.x and
-           obj1.y < obj2.y + obj2.height and
-           obj1.y + obj1.height > obj2.y
-end]]
-
 function Playeractions.checkCollision(enemyobject)
     return enemyobject.x < enemyobject.x + enemyobject.width and
            playerpos.x + playerpos.width > enemyobject.x and
