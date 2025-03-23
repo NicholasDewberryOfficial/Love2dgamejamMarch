@@ -162,7 +162,7 @@ function Playeractions.fire()
   if projectile.projectileCount > 0 then
     if canFire then 
       shootsound:play()
-      projectile.newProjectile(playerpos.x , playerpos.y - 50)
+      projectile.newProjectile(playerpos.x , playerpos.y - 30)
       canFire = false
       fireCooldownTimer = 0;
       shootsound:play()
