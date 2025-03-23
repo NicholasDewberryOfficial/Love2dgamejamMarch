@@ -88,19 +88,18 @@ for i, v in ipairs(listOfAstroids) do
   if isOffScreen(v) then
     table.remove(listOfAstroids, i)
   end
-  end
+end
 
-if(projectilearrref.bullets) then
-for i, b in ipairs(projectilearrref.bullets) do
+
+  
+for i, b in ipairs(projectilearrref.getBullets()) do
+  print(b.x, b.y)
   for x, c in ipairs(listOfAstroids) do 
-    print("this is being called")
     if checkCollision(b, c) then table.remove(listOfAstroids, x) print("collisiondetected")
     end
     
 end
 end
-end
-
 
 --end mainloop controls/physics/interactions
 
