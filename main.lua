@@ -37,6 +37,8 @@ function isOffScreen(astroid)
 end
 
 --used for projectile collisions
+-- collision formula is calculated with the assumption that the projectile sprites position is in the center of the sprite
+-- while the asteroid position is at the top left of the sprite
 function checkProjectileCollision(obj1, obj2)
     return obj1.x - obj1.width/2 < obj2.x + obj2.width and
            obj1.x + obj1.width/2 > obj2.x and
