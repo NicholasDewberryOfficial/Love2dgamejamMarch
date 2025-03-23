@@ -19,8 +19,13 @@ local playeractions = require("Playeractions")
 
 local mainmenuref = require("Mainmenuscreen")
 local losescreenref = require("Losescreen")
+local winscreenref = require("Winscreen")
 
 local projectilearrref = require("Projectile")
+local explosions = require("Explosions")
+
+--not a timer, its a stopwatch
+local gameTime =0 
 
 function isOffScreen(astroid)
   if (astroid.x < 0 or astroid.x > love.graphics.getWidth() or astroid.y > love.graphics.getHeight()) then
@@ -39,10 +44,7 @@ function checkCollision(obj1, obj2)
 end
 
 function love.load()
-  listOfAstroids = {}
-  Object = require "classic"
-  require "AstroidGen"
-  require "Astroid"
+  
 love.window.setMode(609, 812, {resizable=true, vsync=0, minwidth=480, minheight=640})
 love.switchscenes()
 gameSceneBG = love.graphics.newImage('art/gameBG.png')
@@ -56,14 +58,25 @@ mainmenuref.initializeVals()
 -- mainscene is entered: 
 
 elseif gamestate == 1 then 
+listOfAstroids = {}
+Object = require "classic"
+require "AstroidGen"
+require "Astroid"
 generator = AstroidGen(10)
 playeractions.load()
+gameTime =0
 --end mainscene is entered
 
 elseif gamestate == 2 then
 --blank for now (no death screen) 
 losescreenref.initializeVals()
+
+elseif gamestate == 3 then
+winscreenref.initializeVals()
+
 end
+
+
 
 end
   
@@ -76,11 +89,23 @@ if gamestate == 0 then
 elseif gamestate == 1  then  
 playeractions.update(dt)
 
+
+for index, boom in ipairs(explosions) do
+    boom:update(dt)
+    if boom:isFinished() then
+      --This might not be necessary
+      --table.remove(explosions, boom)
+    end
+  end
+
+
 --Here is where we iterate through the astroids.
 generator:update(dt)
 for i, v in ipairs(listOfAstroids) do
   v:update(dt)
-  playeractions.checkCollision(v)
+  if playeractions.checkCollision(v) 
+  then playeractions.playerDeath()
+  end
 end
 
 --logic for erasing astroids 
@@ -90,16 +115,22 @@ for i, v in ipairs(listOfAstroids) do
   end
 end
 
-
 --see if any bullets and astroids are colliding. if they are, delete em
 for i, b in ipairs(projectilearrref.getBullets()) do
   --print(b.x, b.y)
   for x, c in ipairs(listOfAstroids) do 
-    if checkCollision(b, c) then table.remove(listOfAstroids, x) --print("collisiondetected")
+    if checkCollision(b, c) then
+    table.insert(explosions, createExplosion(c.x, c.y))
+    table.remove(listOfAstroids, x) 
     end
-    
+    end
 end
-end
+
+--for winning and losing 
+arcadeControlFlow()
+
+--for increasing the time 
+gameTime = gameTime + dt
 
 --end mainloop controls/physics/interactions
 
@@ -128,20 +159,66 @@ playeractions.draw()
 for i, v in ipairs(listOfAstroids) do
   v:draw()
 end
+  
+for index, explosion in ipairs(explosions) do
+  explosion:draw()
+  end
+
+
+
 --end mainloopdraw
 
 elseif gamestate ==2 
 then
 losescreenref:drawMenu()
 losescreenref:MoveArrow()
+
+
+elseif gamestate ==3
+then
+winscreenref:drawMenu()
+winscreenref:MoveArrow()
 end
 end
+
 
 
 --[[DEWBERRY, we use this function for controlling menu buttons. 
 We can't do the simplle thing (iskeydown) because the key goes all the way down.
 So we have to use this love.keypressed thingy. 
 ]]
+--need revamped
+
+function arcadeControlFlow()
+
+  localscope = 0
+    if gamestate == 1 then
+    localscope = playeractions.checkforwinorloss()
+    end
+  
+  if gameTime > 2 then
+  localscope = 3 
+  end 
+  
+    --(death) actiongame -> deathscreen
+  if localscope == 2 and gamestate == 1 then
+  losescreenref.findcsscore(calculatescore())
+  gamestate = 2
+  love.switchscenes()
+end
+
+--winscreen
+if localscope == 3 and gamestate == 1 then
+  winscreenref.findcsscore(calculatescore())
+  gamestate = 3
+  love.switchscenes()
+  end
+end 
+
+function calculatescore()
+  return ( (gameTime * 10) + (playeractions.howmuchammo() * 300) )
+end
+
 function love.keypressed(key, scancode, isrepeat)
   --we use localscope as a 1-time use variable to switch scenes. It's ugly, but it works.
   --this section is for loading in the main menu
@@ -150,12 +227,14 @@ function love.keypressed(key, scancode, isrepeat)
   localscope = mainmenuref.keypressed(key)
   end
   
-  if gamestate == 1 then
-    localscope = playeractions.checkforwinorloss()
-  end
+
   
   if gamestate == 2 then 
   localscope = losescreenref.keypressed(key)
+end 
+
+if gamestate == 3 then 
+  localscope = winscreenref.keypressed(key)
 end 
   
 --this section is for starting the action gamefrom the mainmenu 
@@ -164,11 +243,7 @@ end
   love.switchscenes()
 end
 
---(death) actiongame -> deathscreen
-  if localscope == 2 and gamestate == 1 then
-  gamestate = 2
-  love.switchscenes()
-  end
+
 
 --lose screen -> restartactiongame
   if localscope == 1 and gamestate == 2 then
@@ -179,13 +254,20 @@ end
   if localscope == 0 and gamestate == 2 then
   gamestate = 0
   love.switchscenes()
-  end
+end
 
-
-
+--winscren stuff  
+if localscope == 1 and gamestate == 3 then
+  gamestate = 1
+  love.switchscenes()
+end
+--lose screen -> main menu
+  if localscope == 0 and gamestate == 3 then
+  gamestate = 0
+  love.switchscenes()
+end
 
 
 
 end
-
 

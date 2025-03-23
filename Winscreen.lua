@@ -4,20 +4,27 @@ local selectedoption
 
 local movearrowsound = love.audio.newSource("audio/alienshoot1.wav", "static")
 
+local myscore = 0
 --ugly ahh menu
-function Losescreen.initializeVals()
+function Winscreen.initializeVals()
   selectedoption = 0 
 end 
 
-function Losescreen.drawMenu()
-  love.graphics.print("You lost!", 150, 200, 0, 1.5,1.5)
+function Winscreen.drawMenu()
+  love.graphics.print("You've Wonnered!", 150, 200, 0, 1.5,1.5)
+  love.graphics.print("Score is " .. myscore, 200, 200)
   love.graphics.print("RESTART GAME!", 200, 400)
   love.graphics.print("Main Menu", 200, 500)
   love.graphics.print("QUIT", 200, 600)
 end 
+
+ function Winscreen.findcsscore(score) 
+  myscore = score
+end
   
   
-function Losescreen.MoveArrow()
+  
+function Winscreen.MoveArrow()
   xpos = 150
   ypos = 400 
 if selectedoption == 0 then
@@ -31,7 +38,7 @@ elseif selectedoption ==2 then
 end
 
 
-function Losescreen.keypressed(key)
+function Winscreen.keypressed(key)
   
   if key == "up" then
       if selectedoption > 0 then

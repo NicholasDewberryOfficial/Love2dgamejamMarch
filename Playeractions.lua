@@ -19,7 +19,7 @@ local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
 --base is 1, losing is 2, winning is 3 
 local haswonorlost = 1
 
-local enemy = { x = 150, y = 150, width = 50, height = 50 }
+--local enemy = { x = 150, y = 150, width = 50, height = 50 }
 
 function Playeractions.checkCollision(enemyobject)
     return enemyobject.x < enemyobject.x + enemyobject.width and
@@ -39,7 +39,9 @@ function Playeractions.load()
   playerpos.y = 330
   playerpos.width = quadx
   playerpos.height = quady
-
+  --@TODO: for some reason wheenever we start the scene
+  --we automatically shoot
+  --fireCooldownTimer = 90000
   
   --player art animations
   playersprite = love.graphics.newImage('art/Ligher.png')
@@ -58,13 +60,6 @@ function Playeractions.update(dt)
   Playeractions.movementactions()
   Playeractions.updateFireCoolDown(dt)
   projectile.update(dt)
-  -- Move player or enemy here
-    if Playeractions.checkCollision(enemy) then
-        --print("Collision detected!")
-        --kill the player
-    end
-  
-  
 end
 
 function Playeractions.movementactions()
@@ -190,12 +185,20 @@ function Playeractions.checkforwinorloss()
   return haswonorlost
 end 
 
+function Playeractions.playerDeath()
+  haswonorlost = 2
+end
+
 function Playeractions.returnplayerX()
   return playerpos.x
 end
 
 function Playeractions.returnplayery()
   return playerpos.y
+end
+
+function Playeractions.howmuchammo()
+  return projectile.projectileCount
 end
 
 
