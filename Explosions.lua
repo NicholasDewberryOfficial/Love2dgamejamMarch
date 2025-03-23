@@ -11,10 +11,11 @@ function createExplosion(x, y)
   explosion.y = y
 
   -- Create a new particle system with a buffer for up to 100 particles.
+  --100 might be overkill
   explosion.ps = love.graphics.newParticleSystem(particleImage, 100)
   
   -- Configure the particle system for a short explosion effect.
-  explosion.ps:setEmitterLifetime(0.1, .15)   -- Each particle lives between 0.5 and 1 seconds.
+  explosion.ps:setEmitterLifetime(0.1, .15)   -- Each particle lives between 0.1 and .15 seconds. Too short...??
   explosion.ps:setEmissionRate(100)          -- Emission rate if in continuous mode (not used here).
   explosion.ps:setSizes(1, 0)                -- Particles shrink from full size to 0.
   explosion.ps:setSpeed(200, 400)            -- Random speed for particles.

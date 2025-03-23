@@ -27,6 +27,7 @@ local explosions = require("Explosions")
 --not a timer, its a stopwatch
 local gameTime =0 
 
+--checks if astroids are off screen, erases them
 function isOffScreen(astroid)
   if (astroid.x < 0 or astroid.x > love.graphics.getWidth() or astroid.y > love.graphics.getHeight()) then
   return true
@@ -35,7 +36,7 @@ function isOffScreen(astroid)
   end
 end
 
-
+--used for projectile collisions
 function checkCollision(obj1, obj2)
     return obj1.x < obj2.x + obj2.width and
            obj1.x + obj1.width > obj2.x and
@@ -126,7 +127,7 @@ for i, b in ipairs(projectilearrref.getBullets()) do
     end
 end
 
---for winning and losing 
+--for winning and losing, this
 arcadeControlFlow()
 
 --for increasing the time 
@@ -134,11 +135,6 @@ gameTime = gameTime + dt
 
 --end mainloop controls/physics/interactions
 
-elseif gamestate ==2  then
-    --blank for now (no death screen) 
-    --@TODO: add win screen 
-  
-  end
 end 
 
 
@@ -183,11 +179,6 @@ end
 
 
 
---[[DEWBERRY, we use this function for controlling menu buttons. 
-We can't do the simplle thing (iskeydown) because the key goes all the way down.
-So we have to use this love.keypressed thingy. 
-]]
---need revamped
 
 function arcadeControlFlow()
 
@@ -196,7 +187,8 @@ function arcadeControlFlow()
     localscope = playeractions.checkforwinorloss()
     end
   
-  if gameTime > 2 then
+--@TODO change this for game time. rn the game ends in 30 seconds.
+  if gameTime > 30 then
   localscope = 3 
   end 
   
@@ -215,9 +207,17 @@ if localscope == 3 and gamestate == 1 then
   end
 end 
 
+--@TODO change this for game balance
 function calculatescore()
   return ( (gameTime * 10) + (playeractions.howmuchammo() * 300) )
 end
+
+
+--[[DEWBERRY, we use this function for controlling menu buttons. 
+We can't do the simplle thing (iskeydown) because the key goes all the way down.
+So we have to use this love.keypressed thingy. 
+]]
+--need revamped
 
 function love.keypressed(key, scancode, isrepeat)
   --we use localscope as a 1-time use variable to switch scenes. It's ugly, but it works.
@@ -261,7 +261,7 @@ if localscope == 1 and gamestate == 3 then
   gamestate = 1
   love.switchscenes()
 end
---lose screen -> main menu
+--win screen -> main menu
   if localscope == 0 and gamestate == 3 then
   gamestate = 0
   love.switchscenes()

@@ -1,3 +1,6 @@
+--Literally a 1:1 copy of lose screen 
+--look at those comments
+
 local Winscreen = {}
 
 local selectedoption

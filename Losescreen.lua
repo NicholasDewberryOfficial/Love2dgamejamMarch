@@ -13,12 +13,15 @@ end
 
 function Losescreen.drawMenu()
   love.graphics.print("You lost...", 150, 100, 0, 1.5,1.5)
+  --this is how lua does string concentination
+  -- .. instead of +
   love.graphics.print("Score is " .. myscore, 200, 200)
   love.graphics.print("RESTART GAME!", 200, 400)
   love.graphics.print("Main Menu", 200, 500)
   love.graphics.print("QUIT", 200, 600)
 end 
  
+ --use this setter function to set it up
  function Losescreen.findcsscore(score) 
   myscore = score
 end
