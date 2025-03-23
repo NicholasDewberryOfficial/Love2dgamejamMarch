@@ -31,12 +31,12 @@ function isOffScreen(astroid)
 end
 
 
-function istouchingProjectile(astroid, projectile)
-  if (astroid.x == projectile.x) and (astroid.y == projectile.y) then
-    return true 
-  end
-  return false
-end 
+function checkCollision(obj1, obj2)
+    return obj1.x < obj2.x + obj2.width and
+           obj1.x + obj1.width > obj2.x and
+           obj1.y < obj2.y + obj2.height and
+           obj1.y + obj1.height > obj2.y
+end
 
 function love.load()
   listOfAstroids = {}
@@ -88,14 +88,16 @@ for i, v in ipairs(listOfAstroids) do
   if isOffScreen(v) then
     table.remove(listOfAstroids, i)
   end
-  end
-  
-if projectilearrref.bullets == null then 
-else
-for i, b in ipairs(projectilearrref.bullets) do
-  for x, c in ipairs(listOfAstroids) do 
-    if(istouchingProjectile(c, b)) then table.remove(listOfAstroids,c) end
 end
+
+
+  
+for i, b in ipairs(projectilearrref.getBullets()) do
+  print(b.x, b.y)
+  for x, c in ipairs(listOfAstroids) do 
+    if checkCollision(b, c) then table.remove(listOfAstroids, x) print("collisiondetected")
+    end
+    
 end
 end
 

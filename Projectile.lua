@@ -1,6 +1,9 @@
 local Projectile = {}
 local sprite
+
 local plainText
+local projectileCount
+bullets = {}
 function Projectile.load()
     sprite = love.graphics.newImage('art/projectile.png')
     bullets = {}
@@ -26,7 +29,7 @@ end
 
 function Projectile.newProjectile(_x, _y)
     if Projectile.projectileCount > 0 then 
-    table.insert(bullets, {x = _x, y = _y, speed = bulletSpeed})
+    table.insert(bullets, {x = _x, y = _y, speed = bulletSpeed, width = sprite:getWidth()/2, height = sprite:getHeight()/2})
     Projectile.projectileCount = Projectile.projectileCount - 1
     end 
 
@@ -35,6 +38,12 @@ function Projectile.newProjectile(_x, _y)
     else 
         plainText:set("Ammo Count: " ..  Projectile.projectileCount )
     end
+end
+
+function Projectile.getBullets()
+if bullets == nil then return 0
+else return bullets
+end
 end
 
 return Projectile

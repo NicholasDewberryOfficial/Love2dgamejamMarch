@@ -10,7 +10,7 @@ function Losescreen.initializeVals()
 end 
 
 function Losescreen.drawMenu()
-  love.graphics.print("You lost!", 150, 200, 0, 1.5,1.5)
+  love.graphics.print("You won!!", 150, 200, 0, 1.5,1.5)
   love.graphics.print("RESTART GAME!", 200, 400)
   love.graphics.print("Main Menu", 200, 500)
   love.graphics.print("QUIT", 200, 600)
