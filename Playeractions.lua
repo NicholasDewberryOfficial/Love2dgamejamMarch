@@ -13,6 +13,7 @@ local quady = 32
 
 --audio section 
 local shootsound = love.audio.newSource("audio/alienshoot1.wav", "static")
+local noAmmoSFX = love.audio.newSource("audio/ErrorMessage_NoAmmo_Clipped.wav", "static")
 local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
 
 --base is 1, losing is 2, winning is 3 
@@ -169,9 +170,10 @@ function Playeractions.fire()
       canFire = false
       fireCooldownTimer = 0;
       shootsound:play()
-  end 
-end 
-  
+    end 
+  else 
+    noAmmoSFX:play()
+  end  
 end
 
 function Playeractions.updateFireCoolDown(dt)
