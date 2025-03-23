@@ -37,11 +37,11 @@ function isOffScreen(astroid)
 end
 
 --used for projectile collisions
-function checkCollision(obj1, obj2)
-    return obj1.x < obj2.x + obj2.width and
-           obj1.x + obj1.width > obj2.x and
-           obj1.y < obj2.y + obj2.height and
-           obj1.y + obj1.height > obj2.y
+function checkProjectileCollision(obj1, obj2)
+    return obj1.x - obj1.width/2 < obj2.x + obj2.width and
+           obj1.x + obj1.width/2 > obj2.x and
+           obj1.y - obj1.height/2 < obj2.y + obj2.height and
+           obj1.y + obj1.height/2 > obj2.y
 end
 
 function love.load()
@@ -117,14 +117,26 @@ for i, v in ipairs(listOfAstroids) do
 end
 
 --see if any bullets and astroids are colliding. if they are, delete em
+local bulletsToRemove = {}
+local asteroidsToRemove = {}
 for i, b in ipairs(projectilearrref.getBullets()) do
-  --print(b.x, b.y)
   for x, c in ipairs(listOfAstroids) do 
-    if checkCollision(b, c) then
-    table.insert(explosions, createExplosion(c.x, c.y))
-    table.remove(listOfAstroids, x) 
+    if checkProjectileCollision(b, c) then
+      table.insert(bulletsToRemove, i)
+      table.insert(explosions, createExplosion(c.x, c.y))
+      table.insert(asteroidsToRemove, x)
     end
-    end
+  end
+end
+
+-- moved the removal of asteroids / bullets to outside of the loop iterating for collisions
+-- dangerous to remove items from a list while iterating through that same list
+for i, b in ipairs(bulletsToRemove) do 
+  table.remove(projectilearrref.getBullets(), b)
+end
+
+for i, b in ipairs(asteroidsToRemove) do
+  table.remove(listOfAstroids, b) 
 end
 
 --for winning and losing, this
@@ -151,10 +163,10 @@ mainmenuref.MoveArrow()
 elseif gamestate ==1 
 then
 love.graphics.draw(gameSceneBG, 0, 0)
-playeractions.draw()
 for i, v in ipairs(listOfAstroids) do
   v:draw()
 end
+playeractions.draw()
   
 for index, explosion in ipairs(explosions) do
   explosion:draw()

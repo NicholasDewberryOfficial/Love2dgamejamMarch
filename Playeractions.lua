@@ -11,6 +11,9 @@ local canFire = true
 local quadx = 32
 local quady = 32
 
+local scalex = 1.5
+local scaley = 1.5
+
 --audio section 
 local shootsound = love.audio.newSource("audio/alienshoot1.wav", "static")
 local noAmmoSFX = love.audio.newSource("audio/ErrorMessage_NoAmmo_Clipped.wav", "static")
@@ -22,10 +25,10 @@ local haswonorlost = 1
 --local enemy = { x = 150, y = 150, width = 50, height = 50 }
 
 function Playeractions.checkCollision(enemyobject)
-    return playerpos.x < enemyobject.x + enemyobject.width and
-           playerpos.x + playerpos.width > enemyobject.x and
-           playerpos.y < enemyobject.y + enemyobject.height and
-           playerpos.y + playerpos.height > enemyobject.y
+    return playerpos.x - playerpos.width/2 < enemyobject.x + enemyobject.width and
+           playerpos.x + playerpos.width/2 > enemyobject.x and
+           playerpos.y - (playerpos.height/2 * scaley) < enemyobject.y + enemyobject.height and
+           playerpos.y + (playerpos.height/2 * scaley) > enemyobject.y
 end
 
 function Playeractions.load()
@@ -92,7 +95,7 @@ end
 
 function Playeractions.draw()
   local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
-  love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], playerpos.x, playerpos.y, 0,1.5, 1.5, (quadx / 2) , (quady/ 2) )
+  love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], playerpos.x, playerpos.y, 0, scalex, scaley, (quadx / 2) , (quady/ 2) )
   projectile.draw()
 end
 
@@ -117,8 +120,6 @@ end
 
 
 function Playeractions.checkBounds()
-  -- only the y scale is used for getting the correct sprite dimensions
-  local scaley = 1.5 
   
   -- check left border
   if(playerpos.x - (playerpos.width/2) <= 0 ) then

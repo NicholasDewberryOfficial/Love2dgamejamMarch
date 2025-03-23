@@ -29,7 +29,7 @@ end
 
 function Projectile.newProjectile(_x, _y)
     if Projectile.projectileCount > 0 then 
-    table.insert(bullets, {x = _x, y = _y, speed = bulletSpeed, width = sprite:getWidth()/2, height = sprite:getHeight()/2})
+    table.insert(bullets, {x = _x, y = _y, speed = bulletSpeed, width = sprite:getWidth(), height = sprite:getHeight()})
     Projectile.projectileCount = Projectile.projectileCount - 1
     end 
 
