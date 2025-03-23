@@ -6,7 +6,7 @@ function Astroid:new(x, y, speed)
     self.y = y
     self.xSpeed = 0
     self.ySpeed = 0
-    self.speed = 10
+    self.speed = speed
     
     --Testing purposes code
     self.width = 35
