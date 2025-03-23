@@ -91,11 +91,11 @@ for i, v in ipairs(listOfAstroids) do
 end
 
 
-  
+--see if any bullets and astroids are colliding. if they are, delete em
 for i, b in ipairs(projectilearrref.getBullets()) do
-  print(b.x, b.y)
+  --print(b.x, b.y)
   for x, c in ipairs(listOfAstroids) do 
-    if checkCollision(b, c) then table.remove(listOfAstroids, x) print("collisiondetected")
+    if checkCollision(b, c) then table.remove(listOfAstroids, x) --print("collisiondetected")
     end
     
 end
