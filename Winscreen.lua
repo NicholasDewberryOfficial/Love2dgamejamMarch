@@ -14,7 +14,7 @@ function Winscreen.initializeVals()
 end 
 
 function Winscreen.drawMenu()
-  love.graphics.print("You've Wonnered!", 150, 200, 0, 1.5,1.5)
+  love.graphics.print("You've Wonnered!", 150, 100, 0, 1.5,1.5)
   love.graphics.print("Score is " .. myscore, 200, 200)
   love.graphics.print("RESTART GAME!", 200, 400)
   love.graphics.print("Main Menu", 200, 500)

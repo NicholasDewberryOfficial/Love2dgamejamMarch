@@ -1,0 +1,13 @@
+1. projectile shot when you start the game (just an if statement )
+2. UI needs to look better/more consistent (win screen has overlapping text) DEW
+
+Dew concern:
+3.Player death anim (.2 explosion) DEW
+
+4. shooting astroids (bug where all shots are cleared when they shouldnt be ) DEW
+
+5. Art for astroids (slice the spritesheet) DEW 
+
+
+Strech goal:
+making the particles properly move

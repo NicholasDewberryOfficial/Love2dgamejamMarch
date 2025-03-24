@@ -3,6 +3,9 @@ local sprite
 
 local ammoCountText
 local projectileCount
+
+--if disabled, dont do anything
+
 bullets = {}
 function Projectile.load()
     sprite = love.graphics.newImage('art/projectile.png')
@@ -14,6 +17,7 @@ end
 function Projectile.update(dt)
     local projectilesToRemove = {}
    for i,v in ipairs(bullets) do
+      if not v.disabled then 
         if v.currSpeed < v.maxSpeed then 
             v.currSpeed = v.currSpeed + v.acceleration * dt
         else 
@@ -21,8 +25,10 @@ function Projectile.update(dt)
         end 
         v.y = v.y - (v.currSpeed * dt)
         if not Projectile.checkInBounds(v.x, v.y, v.width, v.height) then 
+            v.disabled = 1 
             table.insert(projectilesToRemove, i)
         end
+      end 
    end
 
    for i,v in ipairs(projectilesToRemove) do 
@@ -57,9 +63,11 @@ function Projectile.checkInBounds(x, y, width, height)
 end 
 
 function Projectile.draw()
-
+    
     for i,v in ipairs(bullets) do 
-        love.graphics.draw(sprite, v.x, v.y, 0, 1,1, sprite:getWidth()/2, sprite:getHeight()/2 )
+        if not v.disabled then 
+            love.graphics.draw(sprite, v.x, v.y, 0, 1,1, sprite:getWidth()/2, sprite:getHeight()/2 )
+        end 
     end
 
     love.graphics.draw(ammoCountText, 0, love.graphics.getHeight() - 20 )
@@ -67,7 +75,7 @@ end
 
 function Projectile.newProjectile(_x, _y)
     if Projectile.projectileCount > 0 then 
-    table.insert(bullets, {x = _x, y = _y, width = sprite:getWidth(), height = sprite:getHeight(), currSpeed = 100, maxSpeed = 400, acceleration = 400})
+    table.insert(bullets, {x = _x, y = _y, width = sprite:getWidth(), height = sprite:getHeight(), currSpeed = 100, maxSpeed = 400, acceleration = 400, disabled = false})
     Projectile.projectileCount = Projectile.projectileCount - 1
     end 
 
@@ -83,5 +91,6 @@ if bullets == nil then return 0
 else return bullets
 end
 end
+
 
 return Projectile
