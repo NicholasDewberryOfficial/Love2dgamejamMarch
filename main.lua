@@ -135,7 +135,7 @@ local asteroidsToRemove = {}
 for i, b in ipairs(projectilearrref.getBullets()) do
   for x, c in ipairs(listOfAstroids) do 
     if checkProjectileCollision(b, c) then
-      table.insert(bulletsToRemove, i)
+      table.insert(bulletsToRemove, b)
       table.insert(explosions, createExplosion(c.x, c.y))
       table.insert(asteroidsToRemove, x)
     end
