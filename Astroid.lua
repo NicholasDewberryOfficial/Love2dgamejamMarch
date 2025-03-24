@@ -17,7 +17,7 @@ function Astroid:new(x, y, speed, newimage)
     self.height = 35
     --self.height = self.image:getHeight()
     --self.width = self.image:getWidth()
-    self.image = newimage
+    self.image = love.graphics.newImage("art/trash-can.png")
     
     self.disabled = false
 end
