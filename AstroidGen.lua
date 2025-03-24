@@ -12,15 +12,16 @@ function AstroidGen:new(speed)
     self.height = 3
     self.speed = 90
     self.patterns = {"LINE", "L", "MBLOCKER"}
-    self.pattern = "MBLOCKER"
+    self.pattern = "LINE"
     self.spawned = false
+    self.coolDown = 2
 end
 
 
 
 
 function AstroidGen:update(dt)
-    if self.spawned == false then
+    if self.coolDown >= 2 then
        if self.pattern == "LINE" then
         
         local x, y = 0, 0
@@ -30,6 +31,7 @@ function AstroidGen:update(dt)
             x = x + self.width + 1
         end
         self.spawned = true
+        self.coolDown = 0
         elseif self.pattern == "L" then
             local x, y = 0, 0
             --do stuff to make them spawn in an L shape
@@ -48,6 +50,7 @@ function AstroidGen:update(dt)
                     table.insert(listOfAstroids, Astroid(xMod,y, varyingSpeed))
                 end
                 self.spawned = true
+                self.coolDown = 0
 
             elseif side == 1 then
                 --Wall will be on the left side
@@ -55,6 +58,7 @@ function AstroidGen:update(dt)
                 while x <= (love.graphics.getWidth() / 2) do
                     table.insert(listOfAstroids, Astroid(x, y, self.speed))
                     x = x + self.width + 1
+                end
                 --spawn the center line of astroids
                 --start with a 10 count of astroids
                 local xMod = love.graphics.getWidth() / 2
@@ -63,7 +67,7 @@ function AstroidGen:update(dt)
                    table.insert(listOfAstroids, Astroid(xMod, y, varyingSpeed)) 
                 end
                 self.spawned = true
-            end
+                self.coolDown = 0
         elseif self.pattern == "MBLOCKER" then
             local startX = math.random(0, love.graphics.getWidth()-(4*self.width))
             startX = 0
@@ -75,9 +79,13 @@ function AstroidGen:update(dt)
                 startX = startX + self.width + 1
             end
             self.spawned = true
+            self.coolDown = 0
         end
+            love.graphics.print("Hello world", 100, 100)
+        self.coolDown = self.coolDown + dt
     end
 end
+self.coolDown = self.coolDown + dt
 end
 
 
