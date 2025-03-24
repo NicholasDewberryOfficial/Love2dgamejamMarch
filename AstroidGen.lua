@@ -27,7 +27,6 @@ function AstroidGen:update(dt)
         local rnd = math.random(1,3)
         self.pattern = self.patterns[rnd]
         if self.pattern == "LINE" then
-            print("LINE")
             local x, y = 0, 0
         
             while x <= love.graphics.getWidth() do
@@ -91,6 +90,5 @@ function AstroidGen:update(dt)
     end
     self.coolDown = self.coolDown + dt
 end
---self.coolDown = self.coolDown + dt
 
 
