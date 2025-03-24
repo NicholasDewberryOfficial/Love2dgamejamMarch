@@ -135,6 +135,7 @@ for i, b in ipairs(projectilearrref.getBullets()) do
     if checkProjectileCollision(b, c) then
       b.disabled = true
       c.disabled = true
+      table.remove(listOfAstroids, x)
       table.insert(explosions, createExplosion(c.x, c.y))
     end
   end
