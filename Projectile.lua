@@ -17,7 +17,7 @@ end
 function Projectile.update(dt)
     local projectilesToRemove = {}
    for i,v in ipairs(bullets) do
-      if v.disabled == true then return end 
+      if not v.disabled then 
         if v.currSpeed < v.maxSpeed then 
             v.currSpeed = v.currSpeed + v.acceleration * dt
         else 
@@ -28,6 +28,7 @@ function Projectile.update(dt)
             v.disabled = 1 
             table.insert(projectilesToRemove, i)
         end
+      end 
    end
 
    for i,v in ipairs(projectilesToRemove) do 
@@ -64,8 +65,9 @@ end
 function Projectile.draw()
     
     for i,v in ipairs(bullets) do 
-        if v.disabled == true then return end
-        love.graphics.draw(sprite, v.x, v.y, 0, 1,1, sprite:getWidth()/2, sprite:getHeight()/2 )
+        if not v.disabled then 
+            love.graphics.draw(sprite, v.x, v.y, 0, 1,1, sprite:getWidth()/2, sprite:getHeight()/2 )
+        end 
     end
 
     love.graphics.draw(ammoCountText, 0, love.graphics.getHeight() - 20 )
@@ -73,7 +75,7 @@ end
 
 function Projectile.newProjectile(_x, _y)
     if Projectile.projectileCount > 0 then 
-    table.insert(bullets, {x = _x, y = _y, width = sprite:getWidth(), height = sprite:getHeight(), currSpeed = 100, maxSpeed = 400, acceleration = 400})
+    table.insert(bullets, {x = _x, y = _y, width = sprite:getWidth(), height = sprite:getHeight(), currSpeed = 100, maxSpeed = 400, acceleration = 400, disabled = false})
     Projectile.projectileCount = Projectile.projectileCount - 1
     end 
 

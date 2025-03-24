@@ -86,16 +86,16 @@ end
 end
   
 function love.update(dt)
---mainmenu controls/physics/interaction
-if gamestate == 0 then 
---end mainmenu
+  --mainmenu controls/physics/interaction
+  if gamestate == 0 then 
+  --end mainmenu
 
---mainloop controls/physics/interactions
-elseif gamestate == 1  then  
-playeractions.update(dt)
+  --mainloop controls/physics/interactions
+  elseif gamestate == 1  then  
+  playeractions.update(dt)
 
 
-for index, boom in ipairs(explosions) do
+  for index, boom in ipairs(explosions) do
     boom:update(dt)
     if boom:isFinished() then
       --This might not be necessary
@@ -104,23 +104,23 @@ for index, boom in ipairs(explosions) do
   end
 
 
---Here is where we iterate through the astroids.
-generator:update(dt)
-for i, v in ipairs(listOfAstroids) do
-  v:update(dt)
-  if playeractions.checkCollision(v) 
-  then  
+  --Here is where we iterate through the astroids.
+  generator:update(dt)
+
+  for i, v in ipairs(listOfAstroids) do
+    v:update(dt)
+    if playeractions.checkCollision(v) then  
     --play death anim
     --@TODO player death explosion aint working
     table.insert(explosions, createExplosion(v.x, v.y))
-    if deathanimtime > 3 then
-    --go to next screen
-    playeractions.playerDeath()
-  else 
-    deathanimtime = deathanimtime + dt
+      if deathanimtime > 3 then
+      --go to next screen
+      playeractions.playerDeath()
+      else 
+      deathanimtime = deathanimtime + dt
+      end
+    end
   end
-  end
-end
 
 --logic for erasing astroids 
 for i, v in ipairs(listOfAstroids) do
@@ -130,31 +130,14 @@ for i, v in ipairs(listOfAstroids) do
 end
 
 --see if any bullets and astroids are colliding. if they are, delete em
-local bulletsToRemove = {}
-local asteroidsToRemove = {}
 for i, b in ipairs(projectilearrref.getBullets()) do
   for x, c in ipairs(listOfAstroids) do 
     if checkProjectileCollision(b, c) then
-      --table.insert(bulletsToRemove, i)
-      b.disabled = 1
-      c.disabled = 1 
+      b.disabled = true
+      c.disabled = true
       table.insert(explosions, createExplosion(c.x, c.y))
-      --table.insert(asteroidsToRemove, x)
     end
   end
-end
-
--- moved the removal of asteroids / bullets to outside of the loop iterating for collisions
--- dangerous to remove items from a list while iterating through that same list
-for i, b in ipairs(bulletsToRemove) do 
-  --table.remove(projectilearrref.getBullets(), b)
-  bulletsToRemove[i] = nil
-  --table.replace
-end
-
-for i, b in ipairs(asteroidsToRemove) do
-  --table.remove(listOfAstroids, i) 
-  listOfAstroids[i] = nil
 end
 
 --for winning and losing, this
@@ -178,14 +161,13 @@ mainmenuref.MoveArrow()
 --end mainmenu draw graphics 
 
 --mainloop draw
-elseif gamestate ==1 
-then
+elseif gamestate ==1 then
 love.graphics.draw(gameSceneBG, 0, 0)
 for i, v in ipairs(listOfAstroids) do
   v:draw()
 end
 playeractions.draw()
-  
+
 for index, explosion in ipairs(explosions) do
   explosion:draw()
   end
