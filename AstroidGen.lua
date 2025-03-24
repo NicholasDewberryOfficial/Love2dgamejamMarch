@@ -13,8 +13,7 @@ function AstroidGen:new(speed)
 
     --ediitng to make them fall faster, used to be 10
     self.speed = 100
-    self.patterns = {"LINE"}
-    self.pattern = "LINE"
+    self.patterns = {"L", "MBLOCKER", "single"}
     self.spawned = false
     self.coolDown = 1
 end
@@ -24,7 +23,8 @@ end
 
 function AstroidGen:update(dt)
     if self.coolDown >= 2 then
-        local rnd = math.random(0,2)
+        math.randomseed(os.time())
+        local rnd = math.random(1,3)
         self.pattern = self.patterns[rnd]
         if self.pattern == "LINE" then
             print("LINE")
@@ -69,6 +69,11 @@ function AstroidGen:update(dt)
             end
             self.spawned = true
             self.coolDown = -2
+        elseif self.pattern == "SINGLE" then
+            local sX = math.random(0, love.graphics.getWidth()-self.width)
+            table.insert(listOfAstroids, Astroid(sX, self.y, self.speed))
+            self.coolDown = 0
+            self.spawned = true
         elseif self.pattern == "MBLOCKER" then
             math.randomseed(os.time())
             local startX = math.random(0, love.graphics.getWidth()-(4*self.width))
