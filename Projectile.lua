@@ -60,7 +60,6 @@ function Projectile.draw()
 
     for i,v in ipairs(bullets) do 
         love.graphics.draw(sprite, v.x, v.y, 0, 1,1, sprite:getWidth()/2, sprite:getHeight()/2 )
-        love.graphics.print("curr speed: " .. v.currSpeed, 0, 0)
     end
 
     love.graphics.draw(ammoCountText, 0, love.graphics.getHeight() - 20 )

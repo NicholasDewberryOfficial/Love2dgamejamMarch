@@ -1,6 +1,4 @@
 local Playeractions = {}
-local updownspeed = 1 
-local leftrightspeed = 1
 local playersprite 
 local projectile = require("Projectile")
 local fireCooldownTimer = 0
@@ -13,6 +11,10 @@ local quady = 32
 
 local scalex = 1.5
 local scaley = 1.5
+
+-- used for decceleration purposes
+local direction = {up = 1, down = 2, left = 3, right = 4}
+local lastPressed
 
 --audio section 
 local shootsound = love.audio.newSource("audio/alienshoot1.wav", "static")
@@ -42,6 +44,12 @@ function Playeractions.load()
   playerpos.y = 330
   playerpos.width = quadx
   playerpos.height = quady
+  playerpos.MinSpeed = 300
+  playerpos.CurrSpeed = playerpos.MinSpeed
+  playerpos.Acceleration = 700
+  playerpos.Decceleration = 4000
+  playerpos.MaxSpeed = 500
+
   --@TODO: for some reason wheenever we start the scene
   --we automatically shoot
   --fireCooldownTimer = 90000
@@ -60,28 +68,37 @@ function Playeractions.update(dt)
         animation.currentTime = animation.currentTime - animation.duration
     end
   --player movmenet
-  Playeractions.movementactions()
+  Playeractions.movementactions(dt)
   Playeractions.updateFireCoolDown(dt)
   projectile.update(dt)
 end
 
-function Playeractions.movementactions()
+function Playeractions.movementactions(dt)
   --player movement
   if love.keyboard.isDown("left") then
-      Playeractions.whenmoveleft()
+      Playeractions.whenmoveleft(dt)
+      lastPressed = direction.left
   end
   
   if love.keyboard.isDown("right") then
-      Playeractions.whenmoveright()
+      Playeractions.whenmoveright(dt)
+      lastPressed = direction.right
   end
 
   if love.keyboard.isDown("up") then
-      Playeractions.whenmoveup()
+      Playeractions.whenmoveup(dt)
+      lastPressed = direction.up
   end
 
   if love.keyboard.isDown("down") then
-      Playeractions.whenmovedown()
+      Playeractions.whenmovedown(dt)
+      lastPressed = direction.down
   end
+
+  if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") and not love.keyboard.isDown("up") and not
+  love.keyboard.isDown("down") then 
+    Playeractions.deccelerate(dt)
+  end 
 
   Playeractions.checkBounds()
   -- player firing
@@ -92,6 +109,7 @@ function Playeractions.movementactions()
     haswonorlost = 2
     end
 end
+
 
 function Playeractions.draw()
   local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
@@ -141,21 +159,55 @@ function Playeractions.checkBounds()
   return true
 end
 
+function Playeractions.accelerate(dt)
+  playerpos.CurrSpeed = playerpos.CurrSpeed + playerpos.Acceleration * dt
+  if(playerpos.CurrSpeed > playerpos.MaxSpeed) then 
+    playerpos.CurrSpeed = playerpos.MaxSpeed
+  end 
+end
 
-function Playeractions.whenmoveleft()
-  playerpos.x = playerpos.x - leftrightspeed
+function Playeractions.deccelerate(dt)
+  if (playerpos.CurrSpeed > playerpos.MinSpeed) then 
+    playerpos.CurrSpeed = playerpos.CurrSpeed - playerpos.Decceleration * dt
+
+    --- clamp the player speed
+    if(playerpos.CurrSpeed < playerpos.MinSpeed) then 
+      playerpos.CurrSpeed = playerpos.MinSpeed
+    end 
+
+    if(lastPressed == direction.up) then
+      playerpos.y = playerpos.y - playerpos.CurrSpeed * dt 
+    end 
+    if (lastPressed == direction.down) then 
+      playerpos.y = playerpos.y + playerpos.CurrSpeed * dt
+    end 
+    if (lastPressed == direction.right) then 
+      playerpos.x = playerpos.x + playerpos.CurrSpeed * dt
+    end
+    if (lastPressed == direction.left) then 
+      playerpos.x = playerpos.x - playerpos.CurrSpeed * dt
+    end 
+  end  
 end 
 
-function Playeractions.whenmoveright()
-  playerpos.x = playerpos.x + leftrightspeed
+function Playeractions.whenmoveleft(dt)
+  Playeractions.accelerate(dt)
+  playerpos.x = playerpos.x - playerpos.CurrSpeed * dt
 end 
 
-function Playeractions.whenmoveup()
-  playerpos.y = playerpos.y - updownspeed
+function Playeractions.whenmoveright(dt)
+  Playeractions.accelerate(dt)
+  playerpos.x = playerpos.x + playerpos.CurrSpeed * dt
 end 
 
-function Playeractions.whenmovedown()
-  playerpos.y = playerpos.y + updownspeed
+function Playeractions.whenmoveup(dt)
+  Playeractions.accelerate(dt)
+  playerpos.y = playerpos.y - playerpos.CurrSpeed * dt
+end 
+
+function Playeractions.whenmovedown(dt)
+  Playeractions.accelerate(dt)
+  playerpos.y = playerpos.y + playerpos.CurrSpeed * dt
 end 
 
 function Playeractions.fire()
