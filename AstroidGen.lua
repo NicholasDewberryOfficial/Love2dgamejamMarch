@@ -10,9 +10,11 @@ function AstroidGen:new(speed)
     self.y = -2
     self.width = 35
     self.height = 3
-    self.speed = 90
-    self.patterns = {"L", "MBLOCKER", "SINGLE"}
-    self.pattern = "MBLOCKER"
+
+    --ediitng to make them fall faster, used to be 10
+    self.speed = 100
+    self.patterns = {"LINE"}
+    self.pattern = "LINE"
     self.spawned = false
     self.coolDown = 1
 end
