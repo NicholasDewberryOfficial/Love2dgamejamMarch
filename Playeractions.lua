@@ -19,7 +19,7 @@ local lastPressed
 --audio section 
 local shootsound = love.audio.newSource("audio/alienshoot1.wav", "static")
 local noAmmoSFX = love.audio.newSource("audio/ErrorMessage_NoAmmo_Clipped.wav", "static")
-local bgmusic = love.audio.newSource("audio/alienshoot1.wav", "stream")
+local bgmusic = love.audio.newSource("audio/backgroundMusic.mp3", "stream")
 
 --base is 1, losing is 2, winning is 3 
 local haswonorlost = 1
@@ -36,7 +36,7 @@ end
 function Playeractions.load()
   haswonorlost = 1
   bgmusic:setLooping(true)
- --@TODO: UNCOMMENT THIS ONCE WE GET ACUTAL MUSIC!! bgmusic:play()
+  bgmusic:play()
  
   --player movement
   playerpos = {}
