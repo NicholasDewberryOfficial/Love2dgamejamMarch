@@ -1,5 +1,9 @@
 AstroidGen = Object.extend(Object)
 
+local tvimg = love.graphics.newImage("art/tv.png")
+local trashimg = love.graphics.newImage("art/trash-can.png")
+local alarmimg = love.graphics.newImage("art/alarm-clock.png")
+
 function outOfBounds(x, y, width)
 end
 
@@ -28,9 +32,13 @@ function AstroidGen:update(dt)
         
         while x <= love.graphics.getWidth() do
             x = x + self.width + 1
-            table.insert(listOfAstroids, Astroid(x, y, self.speed))
+            thisimg = selectimage(love.math.random(1,3))
+            table.insert(listOfAstroids, Astroid(x, y, self.speed, thisimg))
         end
         self.spawned = true
     end
     end
 end
+
+function selectimage(value)
+if value == 1 then return tvimg elseif value == 2 then return trashimg elseif value == 3 then return alarmimg end end

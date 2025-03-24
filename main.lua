@@ -26,6 +26,7 @@ local explosions = require("Explosions")
 
 --not a timer, its a stopwatch
 local gameTime =0 
+local deathanimtime = 0 
 
 --checks if astroids are off screen, erases them
 function isOffScreen(astroid)
@@ -68,6 +69,7 @@ require "Astroid"
 generator = AstroidGen(10)
 playeractions.load()
 gameTime =0
+deathanimtime = 0 
 --end mainscene is entered
 
 elseif gamestate == 2 then
@@ -107,7 +109,16 @@ generator:update(dt)
 for i, v in ipairs(listOfAstroids) do
   v:update(dt)
   if playeractions.checkCollision(v) 
-  then playeractions.playerDeath()
+  then  
+    --play death anim
+    --@TODO player death explosion aint working
+    table.insert(explosions, createExplosion(v.x, v.y))
+    if deathanimtime > 3 then
+    --go to next screen
+    playeractions.playerDeath()
+  else 
+    deathanimtime = deathanimtime + dt
+  end
   end
 end
 
