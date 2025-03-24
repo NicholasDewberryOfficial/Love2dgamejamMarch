@@ -135,9 +135,11 @@ local asteroidsToRemove = {}
 for i, b in ipairs(projectilearrref.getBullets()) do
   for x, c in ipairs(listOfAstroids) do 
     if checkProjectileCollision(b, c) then
-      table.insert(bulletsToRemove, b)
+      --table.insert(bulletsToRemove, i)
+      b.disabled = 1
+      c.disabled = 1 
       table.insert(explosions, createExplosion(c.x, c.y))
-      table.insert(asteroidsToRemove, x)
+      --table.insert(asteroidsToRemove, x)
     end
   end
 end
@@ -145,11 +147,14 @@ end
 -- moved the removal of asteroids / bullets to outside of the loop iterating for collisions
 -- dangerous to remove items from a list while iterating through that same list
 for i, b in ipairs(bulletsToRemove) do 
-  table.remove(projectilearrref.getBullets(), b)
+  --table.remove(projectilearrref.getBullets(), b)
+  bulletsToRemove[i] = nil
+  --table.replace
 end
 
 for i, b in ipairs(asteroidsToRemove) do
-  table.remove(listOfAstroids, b) 
+  --table.remove(listOfAstroids, i) 
+  listOfAstroids[i] = nil
 end
 
 --for winning and losing, this

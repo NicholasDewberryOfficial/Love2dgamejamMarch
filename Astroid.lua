@@ -18,6 +18,8 @@ function Astroid:new(x, y, speed, newimage)
     --self.height = self.image:getHeight()
     --self.width = self.image:getWidth()
     self.image = newimage
+    
+    self.disabled = 0
 end
 
 function givememyquad()
@@ -30,11 +32,13 @@ end
 
 
 function Astroid:update(dt)
+  if disabled == 1 then return end
     self.y = self.y + self.speed * dt
 end
 
 
 function Astroid:draw()
+    if disabled == 1 then return end
     --love.graphics.setColor(255, 0, 0)
     --love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     --love.graphics.draw(sprite, v.x, v.y, 0, 1,1, sprite:getWidth()/2, sprite:getHeight()/2 )

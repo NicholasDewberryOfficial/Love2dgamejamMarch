@@ -3,6 +3,9 @@ local sprite
 
 local ammoCountText
 local projectileCount
+
+--if disabled, dont do anything
+
 bullets = {}
 function Projectile.load()
     sprite = love.graphics.newImage('art/projectile.png')
@@ -14,6 +17,7 @@ end
 function Projectile.update(dt)
     local projectilesToRemove = {}
    for i,v in ipairs(bullets) do
+      if v.disabled == true then return end 
         if v.currSpeed < v.maxSpeed then 
             v.currSpeed = v.currSpeed + v.acceleration * dt
         else 
@@ -21,6 +25,7 @@ function Projectile.update(dt)
         end 
         v.y = v.y - (v.currSpeed * dt)
         if not Projectile.checkInBounds(v.x, v.y, v.width, v.height) then 
+            v.disabled = 1 
             table.insert(projectilesToRemove, i)
         end
    end
@@ -57,8 +62,9 @@ function Projectile.checkInBounds(x, y, width, height)
 end 
 
 function Projectile.draw()
-
+    
     for i,v in ipairs(bullets) do 
+        if v.disabled == true then return end
         love.graphics.draw(sprite, v.x, v.y, 0, 1,1, sprite:getWidth()/2, sprite:getHeight()/2 )
     end
 
@@ -83,5 +89,6 @@ if bullets == nil then return 0
 else return bullets
 end
 end
+
 
 return Projectile
